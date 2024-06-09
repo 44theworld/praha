@@ -1,0 +1,40 @@
+CREATE TABLE categories (
+    category_id INT PRIMARY KEY,
+    category_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE sushi_toppings (
+    sushi_topping_id INT PRIMARY KEY,
+    sushi_topping_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE menu_items (
+    menu_item_id INT PRIMARY KEY,
+    category_id INT,
+    menu_item_name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    description TEXT,
+    start_date DATE,
+    end_date DATE,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_name VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20),
+    payment_status VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE order_details (
+    order_detail_id INT PRIMARY KEY,
+    order_id INT,
+    menu_item_id INT,
+    sushi_topping_id INT,
+    quantity INT NOT NULL,
+    has_wasabi BOOLEAN NOT NULL,
+    shari_size VARCHAR(50),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (menu_item_id) REFERENCES menu_items(menu_item_id),
+    FOREIGN KEY (sushi_topping_id) REFERENCES sushi_toppings(sushi_topping_id)
+);
